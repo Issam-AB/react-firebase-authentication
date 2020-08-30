@@ -41,3 +41,5 @@ class Firebase {
 
 }
 export default Firebase;
+// // // var firebase = new Firebase();
+// // // firebase.doCreateUserWitEmailAndPassword

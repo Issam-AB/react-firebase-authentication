@@ -3,12 +3,15 @@ import { Link, withRouter } from "react-router-dom";
 import * as ROUTES from '../constants/routes';
 import { withFirebase } from '../Firebase/Firebase';
 import { compose } from "recompose";
+import {FirebaseContext} from '../Firebase/Firebase'
 
 const SignUpPage = () => {
     return (
         <div>
             <h1>SignUp</h1>
-             <SignUpForm /> 
+            <FirebaseContext.Consumer>
+            {firebase => <SignUpForm firebase={firebase} />}
+            </FirebaseContext.Consumer>
         </div>
     )
 }
@@ -28,8 +31,7 @@ class SignUpFormBase extends Component {
     }
     onSubmit = event => {
         const { username, email, passwordOne } = this.state;
-        
-        this.props.firebase
+        this.props.firebase 
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
             this.setState({ ...INITIAL_STATE });
@@ -103,12 +105,12 @@ const SignUpLink = () => (
     </p>
 )
 //** Instance */
-
+ 
 const SignUpForm = compose(
     withRouter,
-    withFirebase 
-    )(SignUpFormBase)
-
+    withFirebase,
+)(SignUpFormBase);
+ 
 export default SignUpPage;
 
 export { SignUpForm, SignUpLink }
